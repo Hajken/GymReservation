@@ -53,7 +53,14 @@
 
                 @if (Request.IsAuthenticated)
                 {
-                    @Html.ActionLink("Reserv", "ReservationToggle", new { id = item.ID })
+                    if (item.AttendingMembers.FirstOrDefault(t => t.Email== User.Identity.Name)!=null)
+                    {
+                        @Html.ActionLink("Cancel Reserv", "ReservationToggle", new { id = item.ID })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Reserv", "ReservationToggle", new { id = item.ID })
+                    }
                 }
             </td>
         </tr>
