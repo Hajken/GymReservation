@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -17,8 +18,15 @@ namespace GymReservation.Models
             // Add custom user claims here
             return userIdentity;
         }
-        public virtual ICollection<GymClass> AttendedClasses { get; set; }
 
+        public virtual ICollection<GymClass> AttendedClasses { get; set; }
+        public string FirstName { get; set; }
+        
+        public string LastName { get; set; }
+         
+        public string FullName => FirstName +" " +LastName;
+
+        public DateTime TimeOfRegistration { get; set; } = DateTime.Now;
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

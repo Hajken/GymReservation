@@ -39,7 +39,7 @@
         @foreach (var attendingMember in Model.AttendingMembers)
         {
             <dd>
-                @attendingMember.Email
+                @attendingMember.FullName
             </dd>
         }
         
@@ -47,6 +47,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (Request.IsAuthenticated)
+    {
+        @Html.ActionLink("Edit", "Edit", new {id = Model.ID}) 
+    }
+    | @Html.ActionLink("Back to List", "Index")
 </p>

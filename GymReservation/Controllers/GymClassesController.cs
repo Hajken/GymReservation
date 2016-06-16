@@ -10,17 +10,20 @@ using GymReservation.Models;
 
 namespace GymReservation.Controllers
 {
+    [Authorize]
     public class GymClassesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: GymClasses
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.GymClasses.ToList());
         }
 
         // GET: GymClasses/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,17 +39,19 @@ namespace GymReservation.Controllers
         }
 
         // GET: GymClasses/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: GymClasses/Create
+        // POST: GymClasses1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Duration,Description")] GymClass gymClass)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create([Bind(Include = "ID,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +63,8 @@ namespace GymReservation.Controllers
             return View(gymClass);
         }
 
-        // GET: GymClasses/Edit/5
+        // GET: GymClasses1/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,12 +79,13 @@ namespace GymReservation.Controllers
             return View(gymClass);
         }
 
-        // POST: GymClasses/Edit/5
+        // POST: GymClasses1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Duration,Description")] GymClass gymClass)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit([Bind(Include = "ID,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +96,8 @@ namespace GymReservation.Controllers
             return View(gymClass);
         }
 
-        // GET: GymClasses/Delete/5
+        // GET: GymClasses1/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,9 +112,10 @@ namespace GymReservation.Controllers
             return View(gymClass);
         }
 
-        // POST: GymClasses/Delete/5
+        // POST: GymClasses1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             GymClass gymClass = db.GymClasses.Find(id);
@@ -123,7 +132,7 @@ namespace GymReservation.Controllers
             }
             base.Dispose(disposing);
         }
-
+        
         public ActionResult ReservationToggle(int? id)
         {
             if (id == null)

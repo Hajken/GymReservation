@@ -11,7 +11,7 @@ namespace GymReservation.Models
               
         public string Name { get; set; }
          
-         DateTime StartTime { get; set; }
+        public DateTime StartTime { get; set; }
          
         public TimeSpan Duration { get; set; }
          
