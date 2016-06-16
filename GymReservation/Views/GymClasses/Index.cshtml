@@ -29,41 +29,46 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @if (User.IsInRole("Admin"))
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })<span> | </span>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })<span>|</span>
-                }
+        if (item.StartTime> DateTime.Now.Date)
+        {
 
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
 
-                @if (Request.IsAuthenticated)
-                {
-                    if (item.AttendingMembers.FirstOrDefault(t => t.Email== User.Identity.Name)!=null)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
                     {
-                        @Html.ActionLink("Cancel Reserv", "ReservationToggle", new { id = item.ID })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })<span> | </span>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })<span>|</span>
                     }
-                    else
+
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+
+                    @if (Request.IsAuthenticated)
                     {
-                        @Html.ActionLink("Reserv", "ReservationToggle", new { id = item.ID })
+                        if (item.AttendingMembers.FirstOrDefault(t => t.Email == User.Identity.Name) != null)
+                        {
+                            @Html.ActionLink("Cancel Reserv", "ReservationToggle", new { id = item.ID })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Reserv", "ReservationToggle", new { id = item.ID })
+                        }
                     }
-                }
-            </td>
-        </tr>
+                </td>
+            </tr>
+        }
     }
 
 
