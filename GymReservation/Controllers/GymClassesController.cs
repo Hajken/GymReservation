@@ -158,5 +158,25 @@ namespace GymReservation.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public ActionResult History()
+        {
+            return View(db.GymClasses.ToList());
+
+        }
+        public ActionResult Reservation()
+        {
+            ApplicationUser currentUser = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            List<GymClass> gymClassList = new List<GymClass>();
+            foreach (var gymItem in db.GymClasses.ToList())
+            {
+                if (gymItem.AttendingMembers.Contains(currentUser))
+                {
+                    gymClassList.Add(gymItem);
+                }
+            }
+            return View(gymClassList);
+
+        }
     }
 }

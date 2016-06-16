@@ -47,9 +47,9 @@
     </dl>
 </div>
 <p>
-    @if (Request.IsAuthenticated)
+    @if (User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Edit", "Edit", new {id = Model.ID}) 
+        @Html.ActionLink("Edit", "Edit", new {id = Model.ID})        <span> | </span>
     }
-    | @Html.ActionLink("Back to List", "Index")
+     @Html.ActionLink("Back to List", "Index")
 </p>
