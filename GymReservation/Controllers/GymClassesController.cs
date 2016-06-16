@@ -123,5 +123,31 @@ namespace GymReservation.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult ReservationToggle(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            GymClass currentClass = db.GymClasses.FirstOrDefault(g => g.ID == id);
+            ApplicationUser currentUser = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (currentClass != null)
+            {
+
+
+                if (currentClass.AttendingMembers.Contains(currentUser))
+                {
+                    currentClass.AttendingMembers.Remove(currentUser);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    currentClass.AttendingMembers.Add(currentUser);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
